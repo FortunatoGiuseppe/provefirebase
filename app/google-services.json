@@ -63,6 +63,122 @@
           ]
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:665902641956:android:982983ad40676197ba79b1",
+        "android_client_info": {
+          "package_name": "com.example.orderapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "665902641956-ek77ecidl74c5l58fbrsbi7okupqsm3l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAVIMb3XfuRsvCm07u5gJIwcUWVywZQ0r0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "665902641956-ek77ecidl74c5l58fbrsbi7okupqsm3l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:665902641956:android:90f4bee097e09124ba79b1",
+        "android_client_info": {
+          "package_name": "com.example.prova"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "665902641956-ek77ecidl74c5l58fbrsbi7okupqsm3l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAVIMb3XfuRsvCm07u5gJIwcUWVywZQ0r0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "665902641956-ek77ecidl74c5l58fbrsbi7okupqsm3l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:665902641956:android:53e2d9e38fafbe0bba79b1",
+        "android_client_info": {
+          "package_name": "com.example.provacatalogo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "665902641956-ek77ecidl74c5l58fbrsbi7okupqsm3l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAVIMb3XfuRsvCm07u5gJIwcUWVywZQ0r0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "665902641956-ek77ecidl74c5l58fbrsbi7okupqsm3l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:665902641956:android:756b06645ca05664ba79b1",
+        "android_client_info": {
+          "package_name": "com.example.provvisoriomamange"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "665902641956-ek77ecidl74c5l58fbrsbi7okupqsm3l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAVIMb3XfuRsvCm07u5gJIwcUWVywZQ0r0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "665902641956-ek77ecidl74c5l58fbrsbi7okupqsm3l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
     }
   ],
   "configuration_version": "1"

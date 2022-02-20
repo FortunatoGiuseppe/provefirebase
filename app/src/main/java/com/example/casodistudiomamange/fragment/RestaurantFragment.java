@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.casodistudiomamange.R;
 import com.example.casodistudiomamange.adapter.Adapter_category;
 import com.example.casodistudiomamange.model.Category;
+import com.example.casodistudiomamange.model.Databasee;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -30,7 +31,7 @@ public class RestaurantFragment extends Fragment {
     private RecyclerView recyclerView;
     private List<String> categories;    //lista che conterrà i nomi delle categorie
     private Adapter_category adapter_category;
-    DatabaseReference dataref;
+    private Databasee db;
 
     @Nullable
     @Override
@@ -55,28 +56,8 @@ public class RestaurantFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        dataref= FirebaseDatabase.getInstance().getReference().child("Categorie");
-        categories = new ArrayList<String>();
-
-
-        dataref.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                //lettura delle singole categorie dal db (snapshot)
-                // dataSnapshot è la porzione di DB letta a partire da dataref
-                //snapshot è un singolo figlio di dataSnapshot
-                for (DataSnapshot snapshot: dataSnapshot.getChildren()){
-                    Category cat= snapshot.getValue(Category.class);
-                    categories.add(cat.img);
-                }
-                adapter_category.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-            }
-        });
+        db = new Databasee();
+        categories = db.caricaCategorie();
     }
 
 

@@ -7,10 +7,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
 import android.annotation.SuppressLint;
-import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -18,6 +16,7 @@ import com.example.casodistudiomamange.R;
 import com.example.casodistudiomamange.fragment.GroupOrderFragment;
 import com.example.casodistudiomamange.fragment.RestaurantFragment;
 import com.example.casodistudiomamange.fragment.SingleOrderFragment;
+import com.example.casodistudiomamange.model.Databasee;
 import com.example.casodistudiomamange.model.DatabaseController;
 import com.example.casodistudiomamange.model.Table;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -50,6 +49,8 @@ public class MaMangeNavigationActivity extends AppCompatActivity implements Bott
         String usernameInserito = intent.getStringExtra("UsernameInserito");
 
         bottomNavigationView=findViewById(R.id.bottom_navigation_bar);
+
+
 
 
         dbc = new DatabaseController();
