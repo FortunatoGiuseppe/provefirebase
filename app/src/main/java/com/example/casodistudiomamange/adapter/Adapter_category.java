@@ -14,18 +14,21 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.casodistudiomamange.fragment.CategoryFragment;
+import com.example.casodistudiomamange.model.Category;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Adapter_category extends RecyclerView.Adapter<Adapter_category.myViewHolder> {
 
     private Context context;
-    private List<String> categories;
+    //private List<String> categories;
+    private ArrayList<Category>  categoryArrayList;
 
-    public  Adapter_category(Context context, List<String> categories){
+    public  Adapter_category(Context context, ArrayList<Category> categories){
         this.context =context;
-        this.categories = categories;
+        this.categoryArrayList = categories;
     }
     @NonNull
     @Override
@@ -36,13 +39,15 @@ public class Adapter_category extends RecyclerView.Adapter<Adapter_category.myVi
 
     @Override
     public void onBindViewHolder(@NonNull myViewHolder holder, @SuppressLint("RecyclerView") int position) {
-        Picasso.get().load(categories.get(position)).into(holder.imageView);
+        Category category= categoryArrayList.get(position);
+
+        Picasso.get().load(category.getImg()).into(holder.imageView);
         holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 CategoryFragment fragment = new CategoryFragment();
                 Bundle bundle = new Bundle();
-                bundle.putString("CategoryKey",Integer.toString(position));
+                bundle.putString("CategoryKey", category.getName());
                 fragment.setArguments(bundle);
 
                 ((AppCompatActivity)context).getSupportFragmentManager().beginTransaction().replace
@@ -53,7 +58,7 @@ public class Adapter_category extends RecyclerView.Adapter<Adapter_category.myVi
 
     @Override
     public int getItemCount() {
-        return 10;
+        return categoryArrayList.size();
     }
 
     public  static  class myViewHolder extends RecyclerView.ViewHolder{

@@ -1,6 +1,7 @@
 package com.example.casodistudiomamange.fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,22 +35,33 @@ import java.util.List;
 public class RestaurantFragment extends Fragment {
 
     private RecyclerView recyclerView;
-    private List<String> categories;    //lista che conterrà i nomi delle categorie
+    private ArrayList<Category> categories;    //lista che conterrà i nomi delle categorie
     private Adapter_category adapter_category;
-    private Databasee db;
+    private FirebaseFirestore db;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        db = FirebaseFirestore.getInstance();
+        categories= new ArrayList<Category>();
+        adapter_category = new Adapter_category(getContext(), categories);
+    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_restaurant,null);
         getActivity().setTitle("Menu");
+
         recyclerView = v.findViewById(R.id.recycleview);
-        adapter_category = new Adapter_category(getContext(), categories);
+        recyclerView.setHasFixedSize(true);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2 , LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(gridLayoutManager);
-        recyclerView.setHasFixedSize(true);
 
         recyclerView.setAdapter(adapter_category);
+
+        caricaCategorie();
+
         return v;
     }
 
@@ -53,15 +70,24 @@ public class RestaurantFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
     }
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        db = new Databasee();
-        categories = db.caricaCategorie();
+    public void caricaCategorie(){
+        db.collection("Categorie")
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                        if (error != null) {
+                            Log.e("Firestone error", error.getMessage());
+                            return;
+                        }
+
+                        for (DocumentChange dc : value.getDocumentChanges()) {
+                            if (dc.getType() == DocumentChange.Type.ADDED) {
+                                categories.add(dc.getDocument().toObject(Category.class));
+                            }
+                            adapter_category.notifyDataSetChanged();
+                        }
+                    }
+                });
     }
-
-
-
-
 
 }

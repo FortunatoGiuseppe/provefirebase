@@ -3,18 +3,22 @@ package com.example.casodistudiomamange.fragment;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.casodistudiomamange.R;
 import com.example.casodistudiomamange.activity.MaMangeNavigationActivity;
+import com.example.casodistudiomamange.adapter.Adapter_category;
 import com.example.casodistudiomamange.adapter.Adapter_plates;
+import com.example.casodistudiomamange.model.Category;
 import com.example.casodistudiomamange.model.Databasee;
 import com.example.casodistudiomamange.model.Plate;
 import com.google.firebase.database.DataSnapshot;
@@ -22,76 +26,38 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class CategoryFragment extends Fragment {
     private RecyclerView recyclerView_plates;
-    private List<String> platesName;    //contenitore nomi dei piatti
+    /*private List<String> platesName;    //contenitore nomi dei piatti
     private List<String> platesImg;     //contenitore immagini dei piatti
     private List<String> platesDescription; //contenitore descrizioni dei piatti
-    private List<String> plateFlag; //flag delle bevande
-    private Adapter_plates adapter_plates;
-    DatabaseReference dataref_plates;
+    private List<String> plateFlag; //flag delle bevande*/
 
-    String codiceSingleOrder;
-    String codiceGroupOrder;
+    private ArrayList<Plate> plates;    //lista che conterrà i nomi delle categorie
+    private Adapter_plates adapter_plates;
+    private FirebaseFirestore db;
+    String CategoryKey;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
 
         Bundle bundle = getArguments();
-        String CategoryKey = bundle.getString("CategoryKey");
+        CategoryKey = bundle.getString("CategoryKey");
 
-        String nameConverted= convertToName(CategoryKey);
-
-        /*
-        MaMangeNavigationActivity m =(MaMangeNavigationActivity) getActivity();
-        codiceSingleOrder=m.codiceSingleOrder;
-        codiceGroupOrder=m.codiceGroupOrder;*/
-
-        dataref_plates= FirebaseDatabase.getInstance().getReference().child("Categorie").child(nameConverted);
-        platesName= new ArrayList<String>();
-        platesImg= new ArrayList<String>();
-        platesDescription= new ArrayList<String>();
-        plateFlag = new ArrayList<String>();
-        adapter_plates = new Adapter_plates(getContext(), platesName,platesImg, platesDescription,plateFlag);
-
-
-        dataref_plates.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-            /*dataSnapshot-> quello che legge dal db a partire dall'ultimo child messo a riga 42
-             snapshot-> le informazioni di ciascun child letto a partire da dataSnapshotm, quindi un livello più "dentro"
-
-             occorre leggere gli snapshot fino al penultimo, perché l'ultimo sarebbe img della categoria che
-             se viene letta da problemi perché non combacia con cioè che si aspetta, cioè Plate*/
-                int i=0;
-                for (DataSnapshot snapshot: dataSnapshot.getChildren()){
-
-                    if(i== dataSnapshot.getChildrenCount()-1){
-                        break;
-                    }
-                    i++;
-
-                    Plate plate = snapshot.getValue(Plate.class);
-                    platesImg.add(plate.img);
-                    platesName.add(plate.nome);
-                    platesDescription.add(plate.descrizione);
-                    plateFlag.add(plate.flag);
-                }
-                adapter_plates.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
+        db = FirebaseFirestore.getInstance();
+        plates= new ArrayList<Plate>();
+        adapter_plates = new Adapter_plates(getContext(), plates);
 
     }
 
@@ -100,60 +66,42 @@ public class CategoryFragment extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_category,null);
         getActivity().setTitle("Categorie");
+
+
         recyclerView_plates = v.findViewById(R.id.recycleview_plates);
-
-
+        recyclerView_plates.setHasFixedSize(true);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 1 , LinearLayoutManager.VERTICAL, false);
         recyclerView_plates.setLayoutManager(gridLayoutManager);
-        recyclerView_plates.setHasFixedSize(true);
 
         recyclerView_plates.setAdapter(adapter_plates);
+
+        caricaPiatti();
+
+
         return v;
     }
 
-    // metodo che consente di convertire la posizione della categoria cliccata nella corrispondente stringa identificativa nel DB
-    private String convertToName(String categoryKey) {
-        switch (categoryKey) {
-            case "0":{
-                return "ANTIPASTI";
-            }
-            case "1":{
-                return "BEVANDE";
-            }
-            case "2":{
-                return "FUTOMAKI";
-            }
-            case "3":{
-                return "GUNKAN";
-            }
-            case "4":{
-                return "HOSOMAKI";
-            }
-            case "5":{
-                return "NIGIRI";
-            }
-            case "6":{
-                return "PASTA";
-            }
-            case "7":{
-                return "RISO";
-            }
-            case "8":{
-                return "SASHIMI";
-            }
-            case "9":{
-                return "URAMAKI";
-            }
 
-        }
-        return "NO";
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
     }
 
-
-
-
-
-
+    private void caricaPiatti() {
+       /* db.collection("Categorie")
+                .document(CategoryKey)
+                .addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                        for (DocumentChange dc : value.ge()) {
+                            if (dc.getType() == DocumentChange.Type.ADDED) {
+                                categories.add(dc.getDocument().toObject(Category.class));
+                            }
+                            adapter_category.notifyDataSetChanged();
+                        }
+                    }
+                });*/
+    }
 
 
 }

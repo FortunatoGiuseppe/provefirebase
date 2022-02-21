@@ -22,26 +22,26 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.casodistudiomamange.activity.MaMangeNavigationActivity;
 import com.example.casodistudiomamange.activity.QRCodeActivity;
 import com.example.casodistudiomamange.model.DatabaseController;
+import com.example.casodistudiomamange.model.Plate;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Adapter_plates extends RecyclerView.Adapter<Adapter_plates.myViewHolder> {
 
     private Context context;
-    private List<String> platesName;
+/*    private List<String> platesName;
     private List<String> platesImg;
     private List<String> platesDescription;
-    private List<String> plateFlag;
+    private List<String> plateFlag;*/
+    private ArrayList<Plate> plateArrayList;
     private int total=0;
 
 
-    public  Adapter_plates(Context context, List<String> platesName,List<String> platesImg, List<String> platesDescription, List<String> plateFlag){
+    public  Adapter_plates(Context context, ArrayList<Plate> plateArrayList){
         this.context =context;
-        this.platesName = platesName;
-        this.platesImg = platesImg;
-        this.platesDescription=platesDescription;
-        this.plateFlag = plateFlag;
+        this.plateArrayList=plateArrayList;
     }
 
     @NonNull
@@ -54,12 +54,14 @@ public class Adapter_plates extends RecyclerView.Adapter<Adapter_plates.myViewHo
     @Override
     public void onBindViewHolder(@NonNull myViewHolder holder, @SuppressLint("RecyclerView") int position) {
         /* attribuisco i valori letti alle textview corrispondenti*/
-        holder.textView_plate.setText(platesName.get(position));
-        holder.textView_plate_description.setText(platesDescription.get(position));
-        Picasso.get().load(platesImg.get(position)).into(holder.imageView_plate);
+        Plate plate = plateArrayList.get(position);
+
+        holder.textView_plate.setText(plate.getNome());
+        holder.textView_plate_description.setText(plate.getDescrizione());
+        Picasso.get().load(plate.getImg()).into(holder.imageView_plate);
 
 
-        if((plateFlag.get(position) != null) && plateFlag.get(position).equals("1")){
+        if((plate.getFlag() != null) && plate.getFlag().equals("1")){
             holder.imageView_plate_flag.setImageResource(R.drawable.ic_baseline_public_24);
             holder.imageView_plate_flag.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -137,7 +139,7 @@ public class Adapter_plates extends RecyclerView.Adapter<Adapter_plates.myViewHo
 
     @Override
     public int getItemCount() {
-        return  platesName.size();
+        return  plateArrayList.size();
     }
 
     public  static  class myViewHolder extends RecyclerView.ViewHolder{

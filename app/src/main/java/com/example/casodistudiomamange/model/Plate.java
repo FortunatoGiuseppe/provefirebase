@@ -1,10 +1,10 @@
 package com.example.casodistudiomamange.model;
 /* model del piatto */
 public class Plate {
-    public String img;
-    public String nome;
-    public String descrizione;
-    public String flag;
+    private String img;
+    private String nome;
+    private String descrizione;
+    private String flag;
 
     public String getImg() {
         return img;
