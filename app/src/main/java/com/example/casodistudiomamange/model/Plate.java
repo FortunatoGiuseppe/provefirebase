@@ -4,7 +4,7 @@ public class Plate {
     private String img;
     private String nome;
     private String descrizione;
-    private String flag;
+    private Long flag;
 
     public String getImg() {
         return img;
@@ -30,11 +30,11 @@ public class Plate {
         this.descrizione = descrizione;
     }
 
-    public String getFlag() {
+    public Long getFlag() {
         return flag;
     }
 
-    public void setFlag(String flag) {
+    public void setFlag(Long flag) {
         this.flag = flag;
     }
 

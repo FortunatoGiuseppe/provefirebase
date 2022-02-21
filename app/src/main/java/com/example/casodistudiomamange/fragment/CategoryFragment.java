@@ -94,23 +94,34 @@ public class CategoryFragment extends Fragment {
 
     private void caricaPiatti() {
        db.collection(CategoryKey)
-               .get()
+               .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                   @Override
+                   public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                       if (error != null) {
+                           Log.e("Firestone error", error.getMessage());
+                           return;
+                       }
+
+                       for (DocumentChange dc : value.getDocumentChanges()) {
+                           if (dc.getType() == DocumentChange.Type.ADDED) {
+                               plates.add(dc.getDocument().toObject(Plate.class));
+                           }
+                           adapter_plates.notifyDataSetChanged();
+                       }
+                   }
+               });
+
+              /* .get()
                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                   @Override
                   public void onComplete(@NonNull Task<QuerySnapshot> task) {
                       if(task.isSuccessful()){
                           for (QueryDocumentSnapshot document : task.getResult()){
-
-                                  Log.d("TAG",document.getId()+""+document.getData());
-
-
-
+                                 plates.add(document.getData()
                           }
                       }
                   }
-              });
-
-                       //problemi: leggere senza sapere codici e trasformare cose lette in oggetto di plate
+              });*/
 
     }
 
