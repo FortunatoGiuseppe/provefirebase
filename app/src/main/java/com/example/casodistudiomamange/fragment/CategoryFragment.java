@@ -28,12 +28,14 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.database.core.Tag;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
@@ -91,34 +93,25 @@ public class CategoryFragment extends Fragment {
     }
 
     private void caricaPiatti() {
-       /* db.collection("Categorie")
-                .document(CategoryKey)
-                .addSnapshotListener(new EventListener<DocumentSnapshot>() {
-                    @Override
-                    public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                        for (DocumentChange dc : value.ge()) {
-                            if (dc.getType() == DocumentChange.Type.ADDED) {
-                                categories.add(dc.getDocument().toObject(Category.class));
-                            }
-                            adapter_category.notifyDataSetChanged();
-                        }
-                    }
-                });*/
+       db.collection(CategoryKey)
+               .get()
+               .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                  @Override
+                  public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                      if(task.isSuccessful()){
+                          for (QueryDocumentSnapshot document : task.getResult()){
 
-        //problemi: leggere senza sapere codici e trasformare cose lette in oggetto di plate
-        DocumentReference docRef = db.collection("Categorie").document(CategoryKey);
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        Log.d("TAG", "DocumentSnapshot data: " + document.getData());
-                    }
-                }
-            }
+                                  Log.d("TAG",document.getId()+""+document.getData());
 
-        });
+
+
+                          }
+                      }
+                  }
+              });
+
+                       //problemi: leggere senza sapere codici e trasformare cose lette in oggetto di plate
+
     }
 
 }

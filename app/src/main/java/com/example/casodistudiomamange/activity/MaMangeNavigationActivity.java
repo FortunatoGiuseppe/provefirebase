@@ -29,6 +29,8 @@ public class MaMangeNavigationActivity extends AppCompatActivity implements Bott
     public String codiceSingleOrder;
     public String codiceGroupOrder;
     public DatabaseController dbc;
+    private Databasee db;
+
 
     BottomNavigationView bottomNavigationView;
     @Override
@@ -49,8 +51,6 @@ public class MaMangeNavigationActivity extends AppCompatActivity implements Bott
         String usernameInserito = intent.getStringExtra("UsernameInserito");
 
         bottomNavigationView=findViewById(R.id.bottom_navigation_bar);
-
-
 
 
         dbc = new DatabaseController();
