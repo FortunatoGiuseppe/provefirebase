@@ -111,17 +111,7 @@ public class CategoryFragment extends Fragment {
                    }
                });
 
-              /* .get()
-               .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                  @Override
-                  public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                      if(task.isSuccessful()){
-                          for (QueryDocumentSnapshot document : task.getResult()){
-                                 plates.add(document.getData()
-                          }
-                      }
-                  }
-              });*/
+
 
     }
 
