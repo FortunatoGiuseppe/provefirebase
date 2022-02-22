@@ -33,6 +33,8 @@ public class MaMangeNavigationActivity extends AppCompatActivity implements Bott
 
 
     BottomNavigationView bottomNavigationView;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,24 +57,7 @@ public class MaMangeNavigationActivity extends AppCompatActivity implements Bott
 
         dbc = new DatabaseController();
 
-        dbc.dataref.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    Table table = dataSnapshot.getValue(Table.class);
-                    if(table.getCodicetavolo().equals("MST001")) {
-                        if (!groupOrderExists(table)){
-                            dbc.createOrders(usernameInserito);
-                        }else{
-                            dbc.joinOrder(usernameInserito);
-                        }
-                    }
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-            }
-        });
+        boolean isAvailable=dbc.isTableAvailable("MST001");
 
 
 

@@ -71,7 +71,7 @@ public class RestaurantFragment extends Fragment {
     }
 
     public void caricaCategorie(){
-        db.collection("Categorie")
+        db.collection("CATEGORIE")
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
