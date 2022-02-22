@@ -2,7 +2,7 @@ package com.example.casodistudiomamange.model;
 /* Model della categoria di piatto*/
 public class Category {
     private String img;
-    private String name;
+    private String nome;
 
     public Category() {
     }
@@ -16,10 +16,10 @@ public class Category {
     }
 
     public String getName() {
-        return name;
+        return nome;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.nome = name;
     }
 }

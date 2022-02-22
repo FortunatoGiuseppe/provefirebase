@@ -48,6 +48,7 @@ public class Adapter_category extends RecyclerView.Adapter<Adapter_category.myVi
                 CategoryFragment fragment = new CategoryFragment();
                 Bundle bundle = new Bundle();
                 bundle.putString("CategoryKey", category.getName());
+                String s=category.getName();
                 fragment.setArguments(bundle);
 
                 ((AppCompatActivity)context).getSupportFragmentManager().beginTransaction().replace

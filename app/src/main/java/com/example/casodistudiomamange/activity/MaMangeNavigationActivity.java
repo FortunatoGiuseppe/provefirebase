@@ -56,8 +56,6 @@ public class MaMangeNavigationActivity extends AppCompatActivity implements Bott
 
 
         dbc = new DatabaseController();
-        //boolean isAvailable=dbc.isTableAvailable("MST001");
-
         dbc.createOrdersFirestore(usernameInserito,"MST001");
 
 

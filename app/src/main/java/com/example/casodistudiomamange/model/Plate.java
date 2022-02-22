@@ -5,6 +5,7 @@ public class Plate {
     private String nome;
     private String descrizione;
     private Long flag;
+    private String categoria;
 
     public String getImg() {
         return img;
@@ -38,7 +39,11 @@ public class Plate {
         this.flag = flag;
     }
 
+    public String getCategoria() {
+        return categoria;
+    }
 
-
-
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
 }

@@ -31,10 +31,6 @@ import java.util.List;
 public class Adapter_plates extends RecyclerView.Adapter<Adapter_plates.myViewHolder> {
 
     private Context context;
-/*    private List<String> platesName;
-    private List<String> platesImg;
-    private List<String> platesDescription;
-    private List<String> plateFlag;*/
     private ArrayList<Plate> plateArrayList;
     private int total=0;
 
@@ -55,7 +51,7 @@ public class Adapter_plates extends RecyclerView.Adapter<Adapter_plates.myViewHo
     public void onBindViewHolder(@NonNull myViewHolder holder, @SuppressLint("RecyclerView") int position) {
         /* attribuisco i valori letti alle textview corrispondenti*/
         Plate plate = plateArrayList.get(position);
-
+        String s=plate.getNome();
         holder.textView_plate.setText(plate.getNome());
         holder.textView_plate_description.setText(plate.getDescrizione());
         Picasso.get().load(plate.getImg()).into(holder.imageView_plate);

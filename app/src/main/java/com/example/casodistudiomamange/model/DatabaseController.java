@@ -38,7 +38,6 @@ public class DatabaseController {
 
 
     public DatabaseController() {
-        //this.dataref = FirebaseDatabase.getInstance().getReference().child("Ordini");
         this.df= FirebaseFirestore.getInstance();
     }
 
@@ -88,7 +87,7 @@ public class DatabaseController {
                                            //il codice del group order stesso.
 
                                             Map<String, Object> nuovoSingleOrder = new HashMap<>();
-                                            nuovoSingleOrder.put("codice", "SO3"); //ricorda di modificare generando in modo casuale il codice
+                                            nuovoSingleOrder.put("codice", "SO4"); //ricorda di modificare generando in modo casuale il codice
                                             nuovoSingleOrder.put("codiceGroupOrder", document.get("codice").toString()); //qui metto chiave esterna
                                             //aggiungo single order
                                             df.collection("SINGLE ORDERS").add(nuovoSingleOrder);
@@ -100,7 +99,5 @@ public class DatabaseController {
             }
         });
     }
-
-
 
 }

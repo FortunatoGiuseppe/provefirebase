@@ -19,6 +19,7 @@ import com.example.casodistudiomamange.activity.MaMangeNavigationActivity;
 import com.example.casodistudiomamange.adapter.Adapter_category;
 import com.example.casodistudiomamange.adapter.Adapter_plates;
 import com.example.casodistudiomamange.model.Category;
+import com.example.casodistudiomamange.model.DatabaseController;
 import com.example.casodistudiomamange.model.Databasee;
 import com.example.casodistudiomamange.model.Plate;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -43,15 +44,13 @@ import java.util.List;
 
 public class CategoryFragment extends Fragment {
     private RecyclerView recyclerView_plates;
-    /*private List<String> platesName;    //contenitore nomi dei piatti
-    private List<String> platesImg;     //contenitore immagini dei piatti
-    private List<String> platesDescription; //contenitore descrizioni dei piatti
-    private List<String> plateFlag; //flag delle bevande*/
+
 
     private ArrayList<Plate> plates;    //lista che conterrà i nomi delle categorie
     private Adapter_plates adapter_plates;
     private FirebaseFirestore db;
     String CategoryKey;
+    private DatabaseController dbc;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -82,7 +81,6 @@ public class CategoryFragment extends Fragment {
 
         caricaPiatti();
 
-
         return v;
     }
 
@@ -92,27 +90,31 @@ public class CategoryFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
     }
 
-    private void caricaPiatti() {
-       db.collection(CategoryKey)
-               .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                   @Override
-                   public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                       if (error != null) {
-                           Log.e("Firestone error", error.getMessage());
-                           return;
-                       }
 
-                       for (DocumentChange dc : value.getDocumentChanges()) {
-                           if (dc.getType() == DocumentChange.Type.ADDED) {
-                               plates.add(dc.getDocument().toObject(Plate.class));
-                           }
-                           adapter_plates.notifyDataSetChanged();
-                       }
-                   }
-               });
+    public void caricaPiatti() {
 
+        db.collection("PIATTI")
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                        if (error != null) {
+                            Log.e("Firestone error", error.getMessage());
+                            return;
+                        }
+
+                        for (DocumentChange dc : value.getDocumentChanges()) {
+                            if (dc.getType() == DocumentChange.Type.ADDED) {
+                                if(dc.getDocument().get("categoria").equals(CategoryKey)) {
+                                    plates.add(dc.getDocument().toObject(Plate.class));
+                                }
+                            }
+                            adapter_plates.notifyDataSetChanged();
+                        }
+                    }
+                });
 
 
     }
+
 
 }
