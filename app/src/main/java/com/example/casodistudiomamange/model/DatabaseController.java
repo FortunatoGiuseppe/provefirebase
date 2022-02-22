@@ -20,6 +20,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
@@ -47,22 +48,25 @@ public class DatabaseController {
 
     //false-> tavolo occupato  true-> tavolo libero
     public boolean isTableAvailable(String codiceTavolo){
-
-        DocumentReference docRef = df.collection("TAVOLI").document(codiceTavolo);
-        docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                 table= documentSnapshot.toObject(Table.class);
-            }
-        });
-
-
-        if(table.getFlag()==0){
+        table = new Table();
+        df.collection("TAVOLI")
+                .whereEqualTo("codiceTavolo",codiceTavolo)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()){
+                            for(QueryDocumentSnapshot doc : task.getResult()){
+                                table.setFlag((Long)doc.getData().get("flag"));
+                            }
+                        }
+                    }
+                });
+        if(table.getFlag() == 0){
             return false;
-        }else{
+        } else {
             return true;
         }
-
     }
 
 }
