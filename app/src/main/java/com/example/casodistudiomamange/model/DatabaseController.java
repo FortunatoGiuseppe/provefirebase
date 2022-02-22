@@ -39,30 +39,26 @@ public class DatabaseController {
         this.df= FirebaseFirestore.getInstance();
     }
 
-
-    public void createOrdersFirestore(String usernameInserito){
-
-
-    }
-
     //false-> tavolo occupato  true-> tavolo libero
-    public boolean isTableAvailable(String codiceTavolo){
-
+    public void createOrdersFirestore(String usernameInserito, String codiceTavolo){
         DocumentReference docRef = df.collection("TAVOLI").document(codiceTavolo);
         docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
-                 table= documentSnapshot.toObject(Table.class);
+                table= documentSnapshot.toObject(Table.class);
+                if(table.getFlag()==0){
+                    //Allora il tavolo è libero, perciò devo impostare il tavolo a occupato sul db, creare group order
+                    // e creare single order relativo all'utente corrente
+
+                    docRef.update("flag",1);
+                }else{
+                    //Allora il tavolo è occupato, perciò esiste già il group order (che devo leggere) e devo solo
+                    // creare il single order che si deve unire al group order già presente
+                }
             }
         });
-
-
-        if(table.getFlag()==0){
-            return false;
-        }else{
-            return true;
-        }
-
     }
+
+
 
 }
