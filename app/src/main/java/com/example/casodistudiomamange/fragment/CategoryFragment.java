@@ -50,7 +50,7 @@ public class CategoryFragment extends Fragment {
     private Adapter_plates adapter_plates;
     private FirebaseFirestore db;
     String CategoryKey;
-    private DatabaseController dbc;
+    //private DatabaseController dbc;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

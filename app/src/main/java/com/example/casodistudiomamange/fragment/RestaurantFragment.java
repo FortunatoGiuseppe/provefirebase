@@ -82,6 +82,7 @@ public class RestaurantFragment extends Fragment {
 
                         for (DocumentChange dc : value.getDocumentChanges()) {
                             if (dc.getType() == DocumentChange.Type.ADDED) {
+                                Log.d("nome",dc.getDocument().get("nome").toString());
                                 categories.add(dc.getDocument().toObject(Category.class));
                             }
                             adapter_category.notifyDataSetChanged();
