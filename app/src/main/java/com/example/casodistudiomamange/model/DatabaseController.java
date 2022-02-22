@@ -24,6 +24,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 public class DatabaseController {
 
@@ -50,7 +52,23 @@ public class DatabaseController {
                     //Allora il tavolo è libero, perciò devo impostare il tavolo a occupato sul db, creare group order
                     // e creare single order relativo all'utente corrente
 
+                    //imposto tavolo a occupato
                     docRef.update("flag",1);
+
+                    //creo group order
+                    Map<String, Object> nuovoGroupOrder = new HashMap<>();
+                    nuovoGroupOrder.put("codice", "GO2");       //ricorda di modificare!
+                    nuovoGroupOrder.put("codiceTavolo", codiceTavolo);
+                    //aggiungo group order
+                    df.collection("GROUP ORDERS").add(nuovoGroupOrder);
+
+                    //creo single order
+                    Map<String, Object> nuovoSingleOrder = new HashMap<>();
+                    nuovoSingleOrder.put("codice", "SO2");       //ricorda di modificare!
+                    nuovoSingleOrder.put("codiceGroupOrder", "GO2");
+                    //aggiungo single order
+                    df.collection("SINGLE ORDERS").add(nuovoSingleOrder);
+
                 }else{
                     //Allora il tavolo è occupato, perciò esiste già il group order (che devo leggere) e devo solo
                     // creare il single order che si deve unire al group order già presente
