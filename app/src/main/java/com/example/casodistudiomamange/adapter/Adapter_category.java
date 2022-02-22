@@ -8,22 +8,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.casodistudiomamange.fragment.CategoryFragment;
 import com.example.casodistudiomamange.model.Category;
 import com.squareup.picasso.Picasso;
-
 import java.util.ArrayList;
-import java.util.List;
+
 
 public class Adapter_category extends RecyclerView.Adapter<Adapter_category.myViewHolder> {
 
     private Context context;
-    //private List<String> categories;
     private ArrayList<Category>  categoryArrayList;
 
     public  Adapter_category(Context context, ArrayList<Category> categories){
@@ -40,7 +36,6 @@ public class Adapter_category extends RecyclerView.Adapter<Adapter_category.myVi
     @Override
     public void onBindViewHolder(@NonNull myViewHolder holder, @SuppressLint("RecyclerView") int position) {
         Category category= categoryArrayList.get(position);
-
         Picasso.get().load(category.getImg()).into(holder.imageView);
         holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,7 +45,6 @@ public class Adapter_category extends RecyclerView.Adapter<Adapter_category.myVi
                 bundle.putString("CategoryKey", category.getNome());
                 String s=category.getNome();
                 fragment.setArguments(bundle);
-
                 ((AppCompatActivity)context).getSupportFragmentManager().beginTransaction().replace
                         (R.id.fragment_container, fragment).commit();
             }

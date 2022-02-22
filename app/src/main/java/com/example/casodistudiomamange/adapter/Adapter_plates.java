@@ -3,37 +3,27 @@ package com.example.casodistudiomamange.adapter;
 import com.example.casodistudiomamange.R;
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.example.casodistudiomamange.activity.MaMangeNavigationActivity;
-import com.example.casodistudiomamange.activity.QRCodeActivity;
-import com.example.casodistudiomamange.model.DatabaseController;
 import com.example.casodistudiomamange.model.Plate;
 import com.squareup.picasso.Picasso;
-
 import java.util.ArrayList;
-import java.util.List;
+
 
 public class Adapter_plates extends RecyclerView.Adapter<Adapter_plates.myViewHolder> {
 
     private Context context;
     private ArrayList<Plate> plateArrayList;
     private int total=0;
-
 
     public  Adapter_plates(Context context, ArrayList<Plate> plateArrayList){
         this.context =context;
